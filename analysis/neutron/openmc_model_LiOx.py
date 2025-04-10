@@ -1,7 +1,6 @@
 import openmc
-import vault
 from libra_toolbox.neutronics.neutron_source import A325_generator_diamond
-import helpers
+from libra_toolbox.neutronics import vault
 import math
 import numpy as np
 
@@ -148,7 +147,7 @@ def baby_model():
         0, Li2O_bed_radius, (int(Li2O_bed_radius * 4)) + 1
     )  # 0.25cm radial bins (4x as many bins as breeder radius in cm)
 
-    phi_grid = [0, 1 * math.pi, 2 * math.pi]
+    phi_grid = np.linspace(0, np.pi, 10)
 
     z_grid = np.linspace(
         0, Li2O_bed_thickness, (int(Li2O_bed_thickness * 4)) + 1
