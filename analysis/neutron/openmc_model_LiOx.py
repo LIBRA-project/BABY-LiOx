@@ -139,37 +139,32 @@ def baby_model():
     # Create tally for entire Li2O cell
     tbr_tally = openmc.Tally(name="TBR")
     tbr_tally.scores = ["(n,Xt)"]
-    # tbr_tally.filters = [openmc.CellFilter(Li2O_bed_cell)]  # Add cell filter to tally
+    tbr_tally.filters = [openmc.CellFilter(Li2O_bed_cell)]  # Add cell filter to tally
     tbr_tally.filters = []
 
-    # Create a cylindrical mesh for spatially resolving the TBR distribution
-    r_grid = np.linspace(
-        0, Li2O_bed_radius, (int(Li2O_bed_radius * 4)) + 1
-    )  # 0.25cm radial bins (4x as many bins as breeder radius in cm)
+    # # Create a cylindrical mesh for spatially resolving the TBR distribution
+    # r_grid = np.linspace(
+    #     0, Li2O_bed_radius, (int(Li2O_bed_radius * 4)) + 1
+    # )  # 0.25cm radial bins (4x as many bins as breeder radius in cm)
 
-    phi_grid = np.linspace(0, np.pi, 10)
+    # phi_grid = np.linspace(0, np.pi, 10)
 
-    z_grid = np.linspace(
-        0, Li2O_bed_thickness, (int(Li2O_bed_thickness * 4)) + 1
-    )  # 0.25cm axial bins (4x as many bins as breeder depth in cm)
+    # z_grid = np.linspace(
+    #     0, Li2O_bed_thickness, (int(Li2O_bed_thickness * 4)) + 1
+    # )  # 0.25cm axial bins (4x as many bins as breeder depth in cm)
 
-    mesh_origin = (
-        x_c,
-        y_c,
-        Li2O_bed_z,
-    )  # Origin of the mesh aligned with xy position of baby central axis, and z position of the bottom of the Li2O bed.
+    # mesh_origin = (
+    #     x_c,
+    #     y_c,
+    #     Li2O_bed_z,
+    # )  # Origin of the mesh aligned with xy position of baby central axis, and z position of the bottom of the Li2O bed.
 
-    cyl_mesh = openmc.CylindricalMesh(r_grid, z_grid, phi_grid, mesh_origin)
+    # cyl_mesh = openmc.CylindricalMesh(r_grid, z_grid, phi_grid, mesh_origin)
 
-    print("Mesh origin:", mesh_origin)
-    print("z_grid range:", z_grid[0], "to", z_grid[-1])
-    print("Li2O bed z range:", Li2O_bed_z, "to", Li2O_bed_z + Li2O_bed_thickness)
-    print("Bounding box:", cyl_mesh.bounding_box)
+    # # Create a mesh filter from the cylindrical mesh
+    # mesh_filter = openmc.MeshFilter(cyl_mesh)
 
-    # Create a mesh filter from the cylindrical mesh
-    mesh_filter = openmc.MeshFilter(cyl_mesh)
-
-    tbr_tally.filters.append(mesh_filter)  # Add mesh filter to tally
+    # tbr_tally.filters.append(mesh_filter)  # Add mesh filter to tally
 
     tallies.append(tbr_tally)
 
@@ -654,11 +649,11 @@ if __name__ == "__main__":
     sp = openmc.StatePoint(f"statepoint.{model.settings.batches}.h5")
     tbr_tally = sp.get_tally(name="TBR").get_pandas_dataframe()
 
-    mean = tbr_tally["mean"].sum()
-    stdev = tbr_tally["std. dev."].mean()
+    mean = tbr_tally["mean"].iloc[0]  # Extract the first value
+    stdev = tbr_tally["std. dev."].iloc[0]  # Extract the first value
 
-    print(f"Overall TBR (summed over all bins): {mean:.6e}\n")
-    print(f"Overall TBR std. dev. (averaged over all bins): {stdev:.6e}\n")
+    print(f"Overall TBR: {mean:.6e}\n")
+    print(f"Overall TBR std. dev: {stdev:.6e}\n")
 
     processed_data = {
         "modelled_TBR": {
