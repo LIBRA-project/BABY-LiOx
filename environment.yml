@@ -2,7 +2,7 @@ name: libra-run-env
 channels:
   - conda-forge
 dependencies:
-  - python
+  - python>=3.10
   - openmc # add version tag
   - openmc-plotter
   - numpy # add version tag
