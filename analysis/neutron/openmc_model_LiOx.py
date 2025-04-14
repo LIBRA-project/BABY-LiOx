@@ -498,8 +498,8 @@ Li2O_bed_radius = 7.00
 iv_external_radius = 7.3
 he_radius = 9.144
 furnace_radius = 14.224
-ov_internal_radius = 15.593
-ov_external_radius = 15.812
+ov_internal_radius = 17.561
+ov_external_radius = 17.78
 
 ## Calculated dimensions
 Li2O_bed_volume = 1000  # 1L = 1000 cm3
