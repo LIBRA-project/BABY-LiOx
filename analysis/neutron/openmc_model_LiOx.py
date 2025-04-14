@@ -142,7 +142,8 @@ def baby_model():
     tbr_tally.filters = [openmc.CellFilter(Li2O_bed_cell)]  # Add cell filter to tally
     tbr_tally.filters = []
 
-    # # Create a cylindrical mesh for spatially resolving the TBR distribution
+    # # Uncomment the code below to use a cylindrical mesh tally to spatially resolve the TBR distribution. Not yet working, waiting for openmc patch.
+    # # Create a cylindrical mesh
     # r_grid = np.linspace(
     #     0, Li2O_bed_radius, (int(Li2O_bed_radius * 4)) + 1
     # )  # 0.25cm radial bins (4x as many bins as breeder radius in cm)
@@ -556,10 +557,10 @@ pellet_bed_density, Li_mass_frac_bed, O_mass_frac_bed, He_mass_frac_bed = (
 )
 
 print("**Li2O packed bed properties**")
-print("Oxygen mass fraction:", O_mass_frac_bed)
-print("Lithium mass fraction:", Li_mass_frac_bed)
-print("Helium mass fraction:", He_mass_frac_bed)
-print("Pellet bed density:", pellet_bed_density)
+print("Oxygen mass fraction:", O_mass_frac_bed, "% mass")
+print("Lithium mass fraction:", Li_mass_frac_bed, "% mass")
+print("Helium mass fraction:", He_mass_frac_bed, "% mass")
+print("Pellet bed density:", pellet_bed_density, "g/cm3")
 
 Li2O_bed.add_element("O", O_mass_frac_bed, "wo")
 Li2O_bed.add_element("Li", Li_mass_frac_bed, "wo")
